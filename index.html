@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ганнова Анфиса — Data Analyst</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Literata:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #ffffff;
+      --surface:   #f6f8fa;
+      --border:    #d0d7de;
+      --border2:   #e1e4e8;
+      --text:      #1f2328;
+      --muted:     #656d76;
+      --accent:    #0969da;
+      --accent2:   #1a7f37;
+      --tag-bg:    #ddf4ff;
+      --tag-text:  #0550ae;
+      --tag-green: #dafbe1;
+      --tag-gtxt:  #1a7f37;
+      --tag-yel:   #fff8c5;
+      --tag-ytxt:  #7d4e00;
+      --hover:     #f6f8fa;
+      --radius:    6px;
+      --shadow:    0 1px 3px rgba(31,35,40,.1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Literata', Georgia, serif;
+      font-size: 15px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .topbar {
+      background: #24292f;
+      padding: 12px 24px;
+      display: flex; align-items: center; gap: 10px;
+      font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #8b949e;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .topbar-gh { fill: #e6edf3; flex-shrink: 0; }
+    .topbar-name { color: #e6edf3; font-weight: 600; font-size: 14px; }
+    .topbar-sep  { color: #444c56; }
+
+    .page-wrap {
+      max-width: 1012px; margin: 0 auto;
+      padding: 32px 16px 80px;
+      display: grid; grid-template-columns: 256px 1fr;
+      gap: 24px; align-items: start;
+    }
+
+    /* SIDEBAR */
+    .sidebar { position: sticky; top: 64px; }
+
+    .avatar-wrap {
+      width: 130px; height: 130px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .avatar-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .profile-name { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+    .profile-handle { font-family: 'JetBrains Mono', monospace; font-size: 15px; color: var(--muted); margin-bottom: 14px; }
+    .profile-bio { font-size: 14px; color: var(--text); margin-bottom: 16px; line-height: 1.55; }
+
+    .profile-meta {
+      list-style: none; font-size: 13px; color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      display: flex; flex-direction: column; gap: 7px; margin-bottom: 20px;
+    }
+    .profile-meta li { display: flex; align-items: center; gap: 8px; }
+    .profile-meta svg { fill: var(--muted); flex-shrink: 0; }
+    .profile-meta a { color: var(--muted); }
+    .profile-meta a:hover { color: var(--accent); text-decoration: none; }
+
+    .skills-block { margin-top: 20px; }
+    .skills-title {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em; color: var(--muted);
+      margin-bottom: 10px; border-bottom: 1px solid var(--border2); padding-bottom: 8px;
+    }
+    .skill-group { margin-bottom: 12px; }
+    .skill-group-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tag { background: #fff; color: #000; border: 1.3px solid #000000; border-radius: 20px; padding: 2px 10px; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+    /* .tag.green { background: var(--tag-green); color: var(--tag-gtxt); border-color: #aadebc; }
+    .tag.yellow { background: var(--tag-yel); color: var(--tag-ytxt); border-color: #e5c84a; } */
+
+    /* README */
+    .readme-block { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 24px; box-shadow: var(--shadow); }
+    .readme-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 8px 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 8px; border-radius: var(--radius) var(--radius) 0 0; }
+    .readme-header svg { fill: var(--muted); }
+    .readme-body { padding: 24px; }
+    .readme-body h2 { font-family: 'JetBrains Mono', monospace; font-size: 17px; font-weight: 600; margin-bottom: 10px; color: var(--text); }
+    .readme-body p { color: var(--muted); font-size: 14px; line-height: 1.65; margin-bottom: 10px; }
+    .readme-body p:last-child { margin-bottom: 0; }
+
+    .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+    .section-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: var(--text); }
+    .section-count { background: var(--surface); color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 1px 8px; border: 1px solid var(--border); border-radius: 20px; }
+
+    /* PROJECT CARD */
+    .project-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; box-shadow: var(--shadow); transition: border-color .15s, box-shadow .15s; }
+    .project-card:hover { border-color: #0969da55; box-shadow: 0 3px 8px rgba(9,105,218,.08); }
+
+    .project-header { display: flex; align-items: center; justify-content: space-between; padding: 13px 16px; cursor: pointer; user-select: none; gap: 12px; border-radius: var(--radius); }
+    .project-header:hover { background: var(--hover); }
+
+    .project-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+
+    /* CSS-треугольник вместо символа */
+    .chevron {
+      width: 0; height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 8px solid var(--muted);
+      flex-shrink: 0;
+      transition: transform .2s;
+    }
+    .chevron.open { transform: rotate(90deg); }
+
+    .project-name { font-family: 'Literata', Georgia, serif; font-size: 14px; font-weight: 600; color: var(--accent); }
+
+    .project-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .project-tools { display: flex; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
+
+    /* PROJECT BODY */
+    .project-body { display: none; border-top: 1px solid var(--border2); }
+    .project-body.open { display: block; }
+    .project-body-inner { padding: 20px; }
+    .proj-section { margin-bottom: 20px; }
+    .proj-section:last-child { margin-bottom: 0; }
+    .proj-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin-bottom: 8px; }
+    .proj-text { font-size: 14px; color: var(--text); line-height: 1.65; }
+    .proj-list { list-style: none; font-size: 14px; color: var(--text); display: flex; flex-direction: column; gap: 6px; }
+    .proj-list li { display: flex; gap: 8px; line-height: 1.5; }
+    .proj-list li::before { content: "▸"; color: var(--accent); flex-shrink: 0; }
+
+    .results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+    .result-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px; }
+    .result-value { font-family: 'JetBrains Mono', monospace; font-size: 17px; font-weight: 600; color: var(--accent2); margin-bottom: 4px; }
+    .result-label { font-size: 12px; color: var(--muted); }
+
+    .proj-links { display: flex; gap: 8px; flex-wrap: wrap; }
+    .proj-link { display: inline-flex; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 5px 14px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text); transition: border-color .15s, background .15s; }
+    .proj-link svg { fill: var(--text); flex-shrink: 0; transition: fill .15s; }
+    .proj-link:hover { border-color: var(--accent); background: var(--tag-bg); text-decoration: none; color: var(--accent); }
+    .proj-link:hover svg { fill: var(--accent); }
+
+    footer { text-align: center; padding: 28px 16px; border-top: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+
+    @media (max-width: 768px) {
+      .page-wrap { grid-template-columns: 1fr; padding: 20px 12px 60px; }
+      .sidebar { position: static; }
+      .avatar-wrap { width: 90px; height: 90px; }
+      .results-grid { grid-template-columns: 1fr 1fr; }
+      .project-tools { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="topbar">
+  <svg class="topbar-gh" height="22" viewBox="0 0 16 16" width="22"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+  <span class="topbar-name">AnfisaAnalytics</span>
+  <span class="topbar-sep">/</span>
+  <span>portfolio</span>
+</nav>
+
+<div class="page-wrap">
+
+  <aside class="sidebar">
+    <!-- Положи avatar.jpg в ту же папку что и этот файл -->
+    <div class="avatar-wrap">
+      <img src="avatar.png" alt="Анфиса Ганнова">
+    </div>
+
+    <div class="profile-name">Анфиса Ганнова</div>
+    <div class="profile-handle">Data Analyst</div>
+    <div class="profile-bio">Превращаю сырые данные в конкретные рекомендации, которые увеличивают прибыль и экономят время.</div>
+
+    <ul class="profile-meta">
+      <li>
+        <svg width="14" height="14" viewBox="0 0 16 16"><path d="M1.75 2A1.75 1.75 0 000 3.75v8.5C0 13.216.784 14 1.75 14h12.5A1.75 1.75 0 0016 12.25v-8.5A1.75 1.75 0 0014.25 2H1.75zM1.5 3.75a.25.25 0 01.25-.25h12.5a.25.25 0 01.25.25v.852l-6.5 3.76-6.5-3.76V3.75zm0 2.662l6.193 3.584a.75.75 0 00.614 0L14.5 6.412v5.838a.25.25 0 01-.25.25H1.75a.25.25 0 01-.25-.25V6.412z"/></svg>
+        <a href="mailto:anfisso@yahoo.com">anfisso@yahoo.com</a>
+      </li>
+      <li>
+        <svg width="14" height="14" viewBox="0 0 16 16"><path d="M5.52.359A.75.75 0 016 1v3.191a.75.75 0 01-.614.737l-1.746.349A.25.25 0 003.4 5.5c0 3.358 2.528 6.135 5.799 6.502l1.314.146A.75.75 0 0111 12.9v3.1a.75.75 0 01-.75.75H8.5a.75.75 0 010-1.5h.75v-2.2l-.547-.061C4.675 12.574 2 9.325 2 5.5c0-1.432 1.048-2.617 2.46-2.824l.808-.12V1a.75.75 0 01.752-.641z"/></svg>
+        <a href="tel:+79166873638">+7 916 687-36-38</a>
+      </li>
+      <li>
+        <svg width="14" height="14" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        <a href="https://github.com/AnfisaAnalytics" target="_blank">AnfisaAnalytics</a>
+      </li>
+    </ul>
+
+    <div class="skills-block">
+      <div class="skills-title">Инструменты</div>
+      <div class="skill-group">
+        <div class="skill-group-name">Анализ данных</div>
+        <div class="tags"><span class="tag">Python</span><span class="tag">pandas</span><span class="tag">numpy</span><span class="tag">SQL</span><span class="tag">Excel</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-name">Визуализация</div>
+        <div class="tags"><span class="tag green">DataLens</span><span class="tag green">Metabase</span><span class="tag green">Dash</span><span class="tag green">Plotly</span><span class="tag green">Seaborn</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-name">Сбор данных</div>
+        <div class="tags"><span class="tag yellow">Selenium</span><span class="tag yellow">BeautifulSoup</span><span class="tag yellow">API</span></div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-name">ML</div>
+        <div class="tags"><span class="tag">Scikit-learn</span><span class="tag">Прогнозирование</span><span class="tag">Кластеризация</span></div>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+
+    <div class="readme-block">
+      <div class="readme-header">
+        <svg width="14" height="14" viewBox="0 0 16 16"><path d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm7.251 10.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574zM8.755 4.75l-.004 7.322a3.752 3.752 0 011.992-.572H14.5v-9h-3.495a2.25 2.25 0 00-2.25 2.25z"/></svg>
+        README.md
+      </div>
+      <div class="readme-body">
+        <h2>Привет, я Анфиса</h2>
+        <p>Аналитик данных — помогаю бизнесу принимать решения на основе данных. Открыта к различным форматам работы: от консультаций и разовых проектов до долгосрочного сотрудничества. Могу интегрироваться в существующую команду или работать независимо.</p>
+        <p>Здесь собраны проекты в области анализа данных, прогнозирования и извлечения практической ценности из информации. Каждый проект — не только технические навыки, но и способность трансформировать данные в бизнес-решения.</p>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <span class="section-title">Проекты</span>
+      <span class="section-count">6</span>
+    </div>
+
+    <!-- SVG symbols -->
+    <svg style="display:none">
+      <symbol id="gh" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></symbol>
+      <symbol id="xl" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8.5 16.5l2-3-2-3h1.6l1.2 2 1.2-2H14l-2 3 2 3h-1.6l-1.2-2-1.2 2H8.5z"/></symbol>
+      <symbol id="gd" viewBox="0 0 24 24"><path d="M4.65 19.84l1.5-2.6H22l-1.5 2.6H4.65zM9.5 4.16L2 17.24l1.5 2.6 7.5-13.08L9.5 4.16zm5 0h-3L22 19.84h3L14.5 4.16z"/></symbol>
+      <symbol id="lk" viewBox="0 0 16 16"><path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"/></symbol>
+    </svg>
+
+    <!-- 1 -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-left">
+          <span class="chevron"></span>
+          <div class="project-name">Аналитика продаж в сети мини-маркетов экономкласса</div>
+        </div>
+        <div class="project-right">
+          <div class="project-tools"><span class="tag">Excel</span><span class="tag yellow">Access</span></div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-body-inner">
+          <div class="proj-section">
+            <div class="proj-label">Задача</div>
+            <div class="proj-text">Повышение результативности продаж продуктовой сети экономкласса путём оптимизации ассортимента на основе данных о продажах.</div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Что было сделано</div>
+            <ul class="proj-list">
+              <li>Комплексный анализ продаж по категориям товаров в MS Access и Excel</li>
+              <li>Выявлены наиболее прибыльные категории — лидер «Алкоголь» (42% выручки), перспективная — «Кондитерские изделия»</li>
+              <li>Прогнозирование ключевых показателей на 2025 год методами ARIMA и регрессионного анализа</li>
+              <li>Разработан план мониторинга категорий с метриками достижения целей</li>
+            </ul>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Результаты</div>
+            <div class="results-grid">
+              <div class="result-item"><div class="result-value">46%</div><div class="result-label">Прогноз маржинальности к концу 2025 (было 40–42%)</div></div>
+              <div class="result-item"><div class="result-value">+23%</div><div class="result-label">Рост продаж 2025 vs 2024</div></div>
+              <div class="result-item"><div class="result-value">42%</div><div class="result-label">Доля алкоголя в выручке — топ-категория</div></div>
+            </div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Ссылки</div>
+            <div class="proj-links">
+              <a class="proj-link" href="https://onedrive.live.com/:x:/g/personal/0C19F6939044C56F/EVjbe_4_-fVCuGNz39ZZlHIB-lXWIx0wtlUp6fu_p1g2bg?resid=0C19F6939044C56F!sfe7bdb58f93f42f5b86373dfd6599472&ithint=file%2Cxlsx&e=ron3FW&migratedtospo=true&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3gvYy8wYzE5ZjY5MzkwNDRjNTZmL0VWamJlXzRfLWZWQ3VHTnozOVpabEhJQi1sWFdJeDB3dGxVcDZmdV9wMWcyYmc_ZT1yb24zRlc" target="_blank">
+                <svg width="14" height="14"><use href="#xl"/></svg> Excel
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-left">
+          <span class="chevron"></span>
+          <div class="project-name">Анализ рентабельности инвестиций в арендную недвижимость России</div>
+        </div>
+        <div class="project-right">
+          <div class="project-tools"><span class="tag">Python</span><span class="tag green">Dash</span><span class="tag yellow">Selenium</span></div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-body-inner">
+          <div class="proj-section">
+            <div class="proj-label">Задача</div>
+            <div class="proj-text">Создание аналитической модели для принятия инвестиционных решений на рынке арендной недвижимости — автоматизированный сбор и анализ рыночных данных по 10 крупнейшим городам России.</div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Исследуемые города</div>
+            <div class="proj-text" style="color:var(--muted); font-size:13px; font-family:'JetBrains Mono',monospace; line-height:1.8;">Сочи &middot; Краснодар &middot; Уфа &middot; Казань &middot; Екатеринбург &middot; Омск &middot; Тюмень &middot; Новосибирск &middot; Калининград &middot; Владивосток</div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Что было сделано</div>
+            <ul class="proj-list">
+              <li>Автоматизированный парсинг объявлений аренды и продажи с ЦИАН (Selenium, BeautifulSoup)</li>
+              <li>Очистка и структурирование данных, удаление дубликатов, инженерия признаков: ROI, срок окупаемости, стоимость за м²</li>
+              <li>Дескриптивная статистика, корреляционный анализ, финансовое моделирование по городам и типам жилья</li>
+              <li>Интерактивный дашборд на Dash/Plotly и PDF-отчёт с рекомендациями для инвесторов</li>
+            </ul>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Результаты</div>
+            <div class="results-grid">
+              <div class="result-item"><div class="result-value">Омск 12%</div><div class="result-label">Лучший средний ROI, окупаемость ~9 лет</div></div>
+              <div class="result-item"><div class="result-value">31.4%</div><div class="result-label">Топ-объект: студия в Уфе, окупаемость 3.2 года</div></div>
+              <div class="result-item"><div class="result-value">13–17%</div><div class="result-label">ROI студий — самый доходный тип жилья</div></div>
+              <div class="result-item"><div class="result-value">Сочи 7%</div><div class="result-label">Наименее доходный — высокие цены покупки</div></div>
+            </div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Ссылки</div>
+            <div class="proj-links">
+              <a class="proj-link" href="https://github.com/anfisso666/portfolio/blob/d38d3e3cf832ab1aa87dd98755c44db939330ede/cian_analysis.ipynb" target="_blank">
+                <svg width="14" height="14"><use href="#gh"/></svg> GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-left">
+          <span class="chevron"></span>
+          <div class="project-name">Автоматизация отчётности — Excel и VBA</div>
+        </div>
+        <div class="project-right">
+          <div class="project-tools"><span class="tag">Excel</span><span class="tag">VBA</span></div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-body-inner">
+          <div class="proj-section">
+            <div class="proj-label">Задача</div>
+            <div class="proj-text">Создать решение для автоматизации подготовки регулярных отчётов.</div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Что было сделано</div>
+            <ul class="proj-list">
+              <li>VBA-макрос: объединение данных из множественных источников в единую таблицу</li>
+              <li>Автоматическая фильтрация по ключевым показателям с выделением нужных значений</li>
+              <li>Стандартизированное форматирование итоговой таблицы</li>
+            </ul>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Результаты</div>
+            <div class="results-grid">
+              <div class="result-item"><div class="result-value">секунды</div><div class="result-label">Время формирования отчёта (было — несколько часов)</div></div>
+            </div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Ссылки</div>
+            <div class="proj-links">
+              <a class="proj-link" href="https://drive.google.com/file/d/1fBXqHcZRh5krPU8Hm32X3UVAjfQS2T3i/view" target="_blank">
+                <svg width="14" height="14"><use href="#gd"/></svg> Google Drive
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-left">
+          <span class="chevron"></span>
+          <div class="project-name">Каузальный анализ эффективности рекламных кампаний</div>
+        </div>
+        <div class="project-right">
+          <div class="project-tools"><span class="tag">Python</span><span class="tag">PyLift</span><span class="tag yellow">Criteo 12.7M</span></div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-body-inner">
+          <div class="proj-section">
+            <div class="proj-label">Задача</div>
+            <div class="proj-text">Определить истинное влияние рекламного воздействия на поведение пользователей, выявить наиболее значимые факторы для таргетинга и разработать методологию для устойчивой оценки эффективности маркетинговых кампаний с учётом ошибки селекции, эндогенности и сетевых эффектов.</div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Данные</div>
+            <div class="proj-text" style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--muted);">Criteo Uplift Prediction Dataset &mdash; 12.7 млн записей</div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Методология</div>
+            <ul class="proj-list">
+              <li>EDA: анализ распределений, баланс групп (SMD), корреляции, мультиколлинеарность</li>
+              <li>NWOE/NIV: Net Weight of Evidence и Net Information Value (PyLift)</li>
+              <li>2SLS: инструментальные переменные (visit, exposure) для учёта сетевых эффектов</li>
+              <li>Transformed Outcome, Random Forest, Logistic Regression</li>
+              <li>Валидация: сравнение спецификаций, тестирование устойчивости результатов</li>
+            </ul>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Результаты</div>
+            <div class="results-grid">
+              <div class="result-item"><div class="result-value">+0.15 п.п.</div><div class="result-label">Рост конверсии (ATE = 0.00146, p &lt; 0.001)</div></div>
+              <div class="result-item"><div class="result-value">NWOE 0.00147</div><div class="result-label">Подтверждение устойчивости оценки (PyLift)</div></div>
+              <div class="result-item"><div class="result-value">SMD &lt; 0.1</div><div class="result-label">Отличный баланс ковариат</div></div>
+              <div class="result-item"><div class="result-value">f11 top-1</div><div class="result-label">Наиболее информативный признак для таргетинга (NIV = 0.000786)</div></div>
+            </div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Ссылки</div>
+            <div class="proj-links">
+              <a class="proj-link" href="#" target="_blank">
+                <svg width="14" height="14"><use href="#gh"/></svg> GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5 -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-left">
+          <span class="chevron"></span>
+          <div class="project-name">Интерактивный дашборд для мониторинга партнёров</div>
+        </div>
+        <div class="project-right">
+          <div class="project-tools"><span class="tag">Python</span><span class="tag green">Plotly</span><span class="tag">JS</span></div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-body-inner">
+          <div class="proj-section">
+            <div class="proj-label">Задача</div>
+            <div class="proj-text">Разработать интерактивный веб-дашборд для отслеживания активности и эффективности партнёров компании в режиме реального времени.</div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Что было сделано</div>
+            <ul class="proj-list">
+              <li>Сбор, очистка и агрегация данных о партнёрах (Python, pandas)</li>
+              <li>Система фильтрации по периоду, региону и категории партнёров</li>
+              <li>Интерактивные визуализации (Plotly / Chart.js)</li>
+              <li>Публикация на GitHub Pages для публичного доступа</li>
+            </ul>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Ссылки</div>
+            <div class="proj-links">
+              <a class="proj-link" href="https://github.com/anfisso666/dash_affs" target="_blank">
+                <svg width="14" height="14"><use href="#gh"/></svg> GitHub
+              </a>
+              <a class="proj-link" href="https://anfisso666.github.io/dash_affs/" target="_blank">
+                <svg width="14" height="14"><use href="#lk"/></svg> Дашборд
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 -->
+    <div class="project-card">
+      <div class="project-header">
+        <div class="project-left">
+          <span class="chevron"></span>
+          <div class="project-name">Анализ зарплат в сфере Data Science, 2020–2023</div>
+        </div>
+        <div class="project-right">
+          <div class="project-tools"><span class="tag">Python</span><span class="tag green">Plotly</span><span class="tag green">Seaborn</span></div>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-body-inner">
+          <div class="proj-section">
+            <div class="proj-label">Задача</div>
+            <div class="proj-text">Выявить ключевые факторы, определяющие уровень заработной платы в экосистеме Data Science профессий, и сформулировать практические рекомендации для максимизации дохода в отрасли.</div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Данные</div>
+            <div class="proj-text" style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--muted);">2 500+ специалистов &middot; 85+ должностей &middot; 50+ стран &middot; 2020–2023</div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Что было сделано</div>
+            <ul class="proj-list">
+              <li>Анализ высокооплачиваемых должностей и выявление аномалий в зарплатах</li>
+              <li>Влияние формата работы (офис / удалёнка / гибрид) на уровень дохода</li>
+              <li>Зависимость зарплаты от размера компании — парадокс среднего бизнеса</li>
+              <li>Географический анализ: популярность регионов и уровень оплаты</li>
+              <li>Динамика зарплат 2020–2023: fastest-growing специализации</li>
+              <li>Портрет максимально успешного специалиста и анализ трудовой мобильности</li>
+            </ul>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Ключевые находки</div>
+            <div class="results-grid">
+              <div class="result-item"><div class="result-value">$375k</div><div class="result-label">Абсолютный лидер: Data Science Tech Lead — на 50% выше следующей позиции</div></div>
+              <div class="result-item"><div class="result-value">+27%</div><div class="result-label">Средние компании ($137k) платят больше крупных корпораций ($100k)</div></div>
+              <div class="result-item"><div class="result-value">Израиль $271k</div><div class="result-label">+87% к медиане США — премиальный рынок</div></div>
+              <div class="result-item"><div class="result-value">ML &times;10+</div><div class="result-label">ML Engineer: $15k → $180k за 4 года (+1 027%)</div></div>
+              <div class="result-item"><div class="result-value">Офис +5%</div><div class="result-label">Офисный формат опережает удалёнку; гибрид — на 54% ниже</div></div>
+              <div class="result-item"><div class="result-value">+88.9%</div><div class="result-label">Общий рост медианной зарплаты по рынку за 2020–2023</div></div>
+            </div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Портрет идеального специалиста</div>
+            <div class="proj-text" style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--muted); line-height:1.8;">
+              Должность: Data Science Tech Lead &nbsp;&middot;&nbsp; Локация: Израиль &nbsp;&middot;&nbsp; Формат: офис &nbsp;&middot;&nbsp; Потенциал: $400k+
+            </div>
+          </div>
+          <div class="proj-section">
+            <div class="proj-label">Ссылки</div>
+            <div class="proj-links">
+              <a class="proj-link" href="https://nbviewer.org/github/anfisso666/portfolio/blob/8019728b009cd4d154b2e429603f46573d52ad9f/f_project.ipynb" target="_blank">
+                <svg width="14" height="14"><use href="#lk"/></svg> Jupyter
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <span style="font-weight:600; color:var(--text)">AnfisaAnalytics</span> &nbsp;&middot;&nbsp; Открыта к сотрудничеству &nbsp;&middot;&nbsp; <a href="mailto:anfisso@yahoo.com">anfisso@yahoo.com</a>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.project-header').forEach(function(header) {
+    header.addEventListener('click', function() {
+      var card = header.closest('.project-card');
+      var body = card.querySelector('.project-body');
+      var chevron = header.querySelector('.chevron');
+      var isOpen = body.classList.contains('open');
+      body.classList.toggle('open', !isOpen);
+      chevron.classList.toggle('open', !isOpen);
+    });
+  });
+});
+</script>
+</body>
+</html>
