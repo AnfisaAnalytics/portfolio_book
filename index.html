@@ -60,6 +60,7 @@
     .sidebar { position: sticky; top: 64px; }
 
     .avatar-wrap {
+      margin:auto;
       width: 130px; height: 130px;
       border-radius: 50%;
       border: 1px solid var(--border);
@@ -395,48 +396,73 @@
       <div class="project-header">
         <div class="project-left">
           <span class="chevron"></span>
-          <div class="project-name">iGaming - Daily_report</div>
+          <div class="project-name">iGaming — Ежедневный отчёт по медиабаингу</div>
         </div>
         <div class="project-right">
-          <div class="project-tools"><span class="tag">Python</span><span class="tag">PyLift</span><span class="tag yellow">Criteo 12.7M</span></div>
+          <div class="project-tools"><span class="tag">Python</span><span class="tag">openpyxl</span><span class="tag yellow">iGaming</span></div>
         </div>
       </div>
       <div class="project-body">
         <div class="project-body-inner">
+    
           <div class="proj-section">
             <div class="proj-label">Задача</div>
-            <div class="proj-text">Определить истинное влияние рекламного воздействия на поведение пользователей, выявить наиболее значимые факторы для таргетинга и разработать методологию для устойчивой оценки эффективности маркетинговых кампаний с учётом ошибки селекции, эндогенности и сетевых эффектов.</div>
+            <div class="proj-text">В iGaming медиабаинге команда ежедневно тратит бюджет на привлечение игроков через десятки партнёров, гео и связок. Проблема — данные разрознены, а оценить кто реально работает в плюс можно только вручную, сводя таблицы. Нужен был инструмент, который каждое утро даёт полную картину: что произошло вчера, кто виновник роста или падения и куда движутся когорты.</div>
           </div>
+    
           <div class="proj-section">
-            <div class="proj-label">Данные</div>
-            <div class="proj-text" style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--muted);">Criteo Uplift Prediction Dataset &mdash; 12.7 млн записей</div>
+            <div class="proj-label">Архитектура анализа</div>
+            <div class="proj-text" style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--muted);">Когорта 1D &nbsp;&middot;&nbsp; Когорта 3D &nbsp;&middot;&nbsp; Когорта 7D &nbsp;&middot;&nbsp; Прогноз OAS &nbsp;&middot;&nbsp; Excel-отчёт</div>
           </div>
+    
           <div class="proj-section">
-            <div class="proj-label">Методология</div>
+            <div class="proj-label">Что было сделано</div>
             <ul class="proj-list">
-              <li>EDA: анализ распределений, баланс групп (SMD), корреляции, мультиколлинеарность</li>
-              <li>NWOE/NIV: Net Weight of Evidence и Net Information Value (PyLift)</li>
-              <li>2SLS: инструментальные переменные (visit, exposure) для учёта сетевых эффектов</li>
-              <li>Transformed Outcome, Random Forest, Logistic Regression</li>
-              <li>Валидация: сравнение спецификаций, тестирование устойчивости результатов</li>
+              <li>Когортный анализ по трём горизонтам (1D / 3D / 7D) — отслеживание как меняется качество трафика со временем, а не только в момент привлечения</li>
+              <li>Разбивка по партнёрам, GEO, байерам и связкам с автоматической флагами 🟢 / 🔴 по порогу OAS — сразу видно кто тянет результат вниз</li>
+              <li>Прогноз OAS 3D и 7D на основе медианных коэффициентов роста исторических когорт — команда знает ожидаемый результат ещё до его наступления</li>
+              <li>Тренд 14 дней по ключевым метрикам: Spend, FTD, CPA, Retention, Avg Check — динамика на одном экране</li>
+              <li>Автоматический экспорт в структурированный Excel с 5 листами и цветовой индикацией</li>
             </ul>
           </div>
+    
           <div class="proj-section">
-            <div class="proj-label">Результаты</div>
-            <div class="results-grid">
-              <div class="result-item"><div class="result-value">+0.15 п.п.</div><div class="result-label">Рост конверсии (ATE = 0.00146, p &lt; 0.001)</div></div>
-              <div class="result-item"><div class="result-value">NWOE 0.00147</div><div class="result-label">Подтверждение устойчивости оценки (PyLift)</div></div>
-              <div class="result-item"><div class="result-value">SMD &lt; 0.1</div><div class="result-label">Отличный баланс ковариат</div></div>
-              <div class="result-item"><div class="result-value">f11 top-1</div><div class="result-label">Наиболее информативный признак для таргетинга (NIV = 0.000786)</div></div>
+            <div class="proj-label">Ключевые метрики</div>
+            <div class="proj-text" style="font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--muted); line-height:2;">
+              OAS (dep_s / spend) &nbsp;&middot;&nbsp; CPA (spend / FTD) &nbsp;&middot;&nbsp; Retention (уники / FTD) &nbsp;&middot;&nbsp; CNGR &nbsp;&middot;&nbsp; Profit &nbsp;&middot;&nbsp; Avg Check &nbsp;&middot;&nbsp; P50 / P90 &nbsp;&middot;&nbsp; FD→2Dep Conv
             </div>
           </div>
+    
+          <div class="proj-section">
+            <div class="proj-label">Результат</div>
+            <div class="results-grid">
+              <div class="result-item">
+                <div class="result-value">~2 мин</div>
+                <div class="result-label">Время на полный ежедневный разбор вместо ручной сводки на час+</div>
+              </div>
+              <div class="result-item">
+                <div class="result-value">5 срезов</div>
+                <div class="result-label">Партнёр · GEO · Байер · Связка · Когорта — всё в одном запуске</div>
+              </div>
+              <div class="result-item">
+                <div class="result-value">1D→7D</div>
+                <div class="result-label">Прогноз OAS до финального значения когорты на основе истории</div>
+              </div>
+              <div class="result-item">
+                <div class="result-value">Excel</div>
+                <div class="result-label">Готовый отчёт для команды и руководства — без ручного форматирования</div>
+              </div>
+            </div>
+          </div>
+    
           <div class="proj-section">
             <div class="proj-links">
-              <a class="proj-link" href="#" target="_blank">
-                <svg width="14" height="14"><use href="portfolio/01 - Data Analysis with Python/Daily_Report_(iGaming).ipynb"/></svg> GitHub
+              <a class="proj-link" href="https://github.com/AnfisaAnalytics/myProfile/blob/bac58071ed9c2425aefd67cfc4fb7ea506a348e5/portfolio/01%20-%20Data%20Analysis%20with%20Python/Daily_Report_(iGaming).ipynb" target="_blank">
+                <svg width="14" height="14"><use href="#gh"/></svg> GitHub
               </a>
             </div>
           </div>
+    
         </div>
       </div>
     </div>
